@@ -14,7 +14,12 @@ function App() {
     axios.post('https://examen1tone.us-south.cf.appdomain.cloud/tone',{
       text: input
     }).then(function(response){
-      console.log(response.data)
+      const res = response.data.result
+      var resultP = document.getElementById('result');
+
+      // console.log(response.data.result)
+      resultP.innerHTML = `<p class="display-6" id = 'resultP'>${res[0].tone_name}<p>`;
+      console.log(res);
     }).catch(function(err){
       console.log(err)
     })
@@ -24,9 +29,10 @@ function App() {
 
   return (
     <div className="App">
-      <form>
+      <form id='formExam'>
         <input placeholder='Add the text' id='text' />
         <button onClick={myFunction}>Submit</button>
+        <p id = 'result'></p>
       </form>
     </div>
   );
