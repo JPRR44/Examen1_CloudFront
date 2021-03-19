@@ -1,18 +1,14 @@
 # creamos una variable
 ARG PORT=3000
-# traemos la imagen de node 12 con kernel de alpine
-FROM node:12-alpine
-# label para agregar metadatos
-LABEL autor="El Villa"
-# cremos el directorio de la app
-WORKDIR /usr/src/app
-# copiamos el archivo a nuestra carpeta 
-COPY package*.json ./
-# instalamos las dependencias
+FROM node:12-alpine3.12 AS build
+LABEL autor="jprr"
+WORKDIR /app
+COPY package.json ./
 RUN npm install
-# copiamos todo al directorio de trabajo
 COPY . .
-# exponemos el puero
 EXPOSE ${PORT}
-# corremos el comando para nuestra app
-CMD [ "node", "app.js" ]
+
+
+FROM nginx:1.19.0-alpine AS prod-stage
+COPY --from=build /app/build /usr/share/nginx/html
+CMD [ "nginx", "-g", "daemon off;" ]
