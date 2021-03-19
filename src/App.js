@@ -1,13 +1,25 @@
 import './App.css';
 import React from 'react';
+import axios from 'axios';
 
 function App() {
 
-  const input = document.getElementById('text').value
 
   const myFunction = (e) => {
+    const input = document.getElementById('text').value
+
     e.preventDefault()
     console.log(input)
+
+    axios.post('https://examen1tone.us-south.cf.appdomain.cloud/tone',{
+      text: input
+    }).then(function(response){
+      console.log(response.data)
+    }).catch(function(err){
+      console.log(err)
+    })
+
+
   }
 
   return (
